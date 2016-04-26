@@ -1,0 +1,82 @@
+@import "../valo/valo.scss";
+
+@mixin mytheme {
+  @include valo;
+
+  .content {
+	  
+	  width: 100%;
+	  
+	  .main-content, .welcome-view {
+		  display: inline-block;
+		  width: 80%;
+		  background-color: lightblue;
+		  min-height: 300px;
+	  }
+	  
+	  .nav-bar {
+		  .v-button {
+			  width: 100%;
+			  background: none;
+			  border: none;
+			  box-shadow: none;
+			  border-radius: 0;
+			  border-bottom: 1px solid grey;
+		  }
+		  .v-button.active {
+			  box-shadow: inset 0px 0px 5px -2px rgba(0,0,0,0.5);
+		  }
+		  
+		  display: inline-block;
+		  width: 150px;
+		  border-right: 1px solid grey;
+		  min-height:300px;
+	  }
+	
+	
+  }
+
+
+  .v-window-modalitycurtain {
+  	opacity: 0.9;
+  }
+
+  .v-gridlayout {}
+  .v-gridlayout-margin {}
+  .v-gridlayout-gridexpandratio {}
+  
+    
+  .my-grid {
+  	display: block;
+  }
+  
+  .todo .v-caption {
+	  display: block;
+  }
+  
+  .paint .right {
+	  width: 150px;
+  }
+  
+  .paint .left {
+	  width: 150px;
+  }
+  
+  .my-grid .todo .right {
+	  width: 80%;
+  }
+  
+  .my-grid .todo .left {
+	  width: 60px;
+  }
+  
+  .col {
+  	display: inline-block;
+  	padding: 0 5px;
+  }
+  
+  .row {
+  	display: block;
+  	padding: 5px 0;
+  }
+}
