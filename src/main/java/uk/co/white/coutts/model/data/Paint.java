@@ -28,4 +28,11 @@ public class Paint
 	{
 		this.code = code;
 	}
+
+	@Override
+	public String toString()
+	{
+		return "[" + room + ", " + code + "]";
+	}
 }
+
