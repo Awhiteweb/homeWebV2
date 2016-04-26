@@ -80,7 +80,6 @@ public class PaintView extends CssLayout
 
 			VerticalLayout v = new VerticalLayout();
 			v.setSpacing( true );
-			v.setMargin( true );
 			MarginInfo marginInfo = new MarginInfo( 50 );
 			marginInfo.setMargins( true );
 			v.setMargin( marginInfo );
@@ -112,6 +111,7 @@ public class PaintView extends CssLayout
 				{
 					container.addBean( new Paint( r.getValue(), c.getValue() ) );
 				}
+
 				w.close();
 			});
 			h.addComponents( b, cancel );
@@ -120,5 +120,4 @@ public class PaintView extends CssLayout
 			UI.getCurrent().addWindow( w );
 		});
 	}
-	
 }
