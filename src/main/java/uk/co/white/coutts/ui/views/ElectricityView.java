@@ -1,18 +1,17 @@
 package uk.co.white.coutts.ui.views;
 
 import java.util.Date;
+import java.util.Locale;
 
 import com.vaadin.data.Validator;
 import com.vaadin.data.util.BeanContainer;
 import com.vaadin.data.util.converter.Converter.ConversionException;
-import com.vaadin.data.validator.NullValidator;
-import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionMode;
-import com.vaadin.ui.Grid.SelectionModel;
 import com.vaadin.ui.Grid.SingleSelectionModel;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
@@ -22,12 +21,12 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 import uk.co.white.coutts.controllers.DataController;
+import uk.co.white.coutts.highchart.HighChart;
 import uk.co.white.coutts.model.data.ElectricityReading;
 
 public class ElectricityView extends CssLayout
 {
 	private static final long serialVersionUID = 8308545397180135786L;
-	private String title;
 	private Grid dataTable;
 	private DataController controller;
 	private BeanContainer<Date, ElectricityReading> container;
@@ -36,22 +35,19 @@ public class ElectricityView extends CssLayout
 	public ElectricityView()
 	{
 		setStyleName( "electricity" );
-		setSizeFull();
-		Date today = new Date();
-		title = String.format( "Electricity data up to today: %s", today.toString() );
+//		setSizeFull();
+		setSizeUndefined();
+		setWidth( "100%" );
 		controller = new DataController();
 	}
 	
 	public ElectricityView loadView()
 	{
-		Label header = new Label( title );
-		header.setStyleName( "page-heading" );
-		addComponent( header );
-		
 		createGrid();
 		addComponent( dataTable );
 		addComponent( addButton() );
-		
+		addComponent( addSpacer() );
+		addComponent( addChart() );
 		return this;
 	}
 	
@@ -59,6 +55,7 @@ public class ElectricityView extends CssLayout
 	{
 		container = controller.getElectricityData();
 		dataTable = new Grid( container );
+		int rows = container.size() > 10 ? 10 : container.size();
 		dataTable.setSelectionMode( SelectionMode.SINGLE );
 		dataTable.addSelectionListener(selectionEvent -> {
 		    Object selected = ( (SingleSelectionModel)
@@ -73,6 +70,8 @@ public class ElectricityView extends CssLayout
 		});
 		dataTable.setColumnOrder( "date", "reading" );
 		dataTable.setStyleName( "data-grid" );
+		dataTable.setHeightMode( HeightMode.ROW );
+		dataTable.setHeightByRows( rows );
 	}
 	
 	private Button addButton()
@@ -82,14 +81,14 @@ public class ElectricityView extends CssLayout
 		add.addClickListener( e1 -> {
 			Window w = new Window();
 			w.setModal( true );
+			w.setResizable( false );
+			w.setClosable( false );
 			
 			VerticalLayout v = new VerticalLayout();
-			MarginInfo mi = new MarginInfo( 50 );
-			mi.setMargins( true );
-			v.setMargin( mi );
 			v.setSpacing( true );
 			
 			DateField dateField = new DateField();
+			dateField.setLocale( Locale.UK );
 			dateField.setValue( new Date() );
 			v.addComponent( dateField );
 			
@@ -102,7 +101,6 @@ public class ElectricityView extends CssLayout
 			
 			Button submit = new Button( "submit" );
 			submit.addClickListener( e2 -> {
-				String value = reading.getValue();
 				try
 				{
 					Float number = (Float) reading.getConvertedValue();
@@ -121,6 +119,7 @@ public class ElectricityView extends CssLayout
 			
 			Button close = new Button( "close" );
 			close.addClickListener( e3 -> w.close() );
+			
 			v.addComponent( close );
 			w.setContent( v );
 			
@@ -128,6 +127,23 @@ public class ElectricityView extends CssLayout
 		});
 		
 		return add;
+	}
+	
+	private Label addSpacer()
+	{
+		Label label = new Label( "<p>&nbsp;<p>" );
+		label.setCaptionAsHtml( true );
+		label.addStyleName( "clearer" );
+		return label;
+	}
+	
+	private HighChart addChart()
+	{
+		HighChart hc = new HighChart();
+		hc.setHcjs( hc.printJSFile( controller.getReadingsForJs() ) );
+		hc.setWidth( "500px" );
+		hc.setHeight( "350px" );
+		return hc;
 	}
 	
 	class NumberValidator implements Validator

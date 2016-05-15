@@ -7,11 +7,17 @@
 	  
 	  width: 100%;
 	  
+	  .v-panel {
+	  	  border-radius: 0;
+	  }
 	  .main-content, .welcome-view {
 		  display: inline-block;
 		  width: 80%;
-		  background-color: lightblue;
 		  min-height: 300px;
+		  .content-panel {
+			  padding: 10px;
+			  background-color: lightblue;
+		  }
 	  }
 	  
 	  .nav-bar {
@@ -31,6 +37,10 @@
 		  width: 150px;
 		  border-right: 1px solid grey;
 		  min-height:300px;
+	  }
+	  
+	  .clearer {
+		  clear: both;
 	  }
 	
 	

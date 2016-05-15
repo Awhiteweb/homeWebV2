@@ -3,6 +3,7 @@ package uk.co.white.coutts.ui;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
+import com.vaadin.ui.Panel;
 
 public class MainContent extends CssLayout
 {
@@ -14,7 +15,12 @@ public class MainContent extends CssLayout
 	{
 		setStyleName( "main-content" );
 		removeAllComponents();
-		addComponent( layout );
+		Panel panel = new Panel();
+		panel.setStyleName( "content-panel" );
+		panel.setContent( layout );
+		panel.setSizeFull();
+		addComponent( panel );
+		
 		setHeight( "100%" );
 	}
 	
