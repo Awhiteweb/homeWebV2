@@ -42,10 +42,11 @@ public class Paint
 			listener.propertyChange( new PropertyChangeEvent( this, "code", this.code, code ) );;
 		this.code = code;
 	}
-	
+
 	@Override
 	public String toString()
 	{
 		return "[ " + room + ", " + code + " ]";
 	}
 }
+

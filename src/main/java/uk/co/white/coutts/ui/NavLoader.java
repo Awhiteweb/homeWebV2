@@ -65,7 +65,7 @@ public class NavLoader extends CssLayout
 			// set main content to paint view
 			resetButtonStyles();
 			paintButton.addStyleName( "active" );
-			content.loadView( new PaintView() );
+			content.loadView( new PaintView().loadView() );
 		});
 		
 		todoButton.addClickListener( e -> {
