@@ -1,22 +1,15 @@
 package uk.co.white.coutts.highchart;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 import org.vaadin.highcharts.AbstractHighChart;
 
-import com.google.gson.Gson;
+import uk.co.white.coutts.controllers.DataController;
+
 import com.vaadin.annotations.JavaScript;
 
-import uk.co.white.coutts.controllers.DataController;
-import uk.co.white.coutts.highchart.data.*;
-
-@JavaScript( { "jquery-min.js", "highcharts.js", "highcharts-connector.js"} )
+@JavaScript( { "jquery-min.js", "highcharts.js", "highcharts-more.js", "highcharts-connector.js"} )
 public class HighChart extends AbstractHighChart
 {
 	private static final long serialVersionUID = -1187313419703844748L;
@@ -25,11 +18,11 @@ public class HighChart extends AbstractHighChart
 	{
 		HighChart h = new HighChart();
 		DataController d = new DataController();
-		h.printJSFile( d.getReadingsForJs() );
+		h.printJSFile( "Mock Chart Data", d.getReadingsForJs() );
 	}
 
 
-	public String printJSFile( Map<String, List<String>> seriesData )
+	public String printJSFile( String chartTitle, Map<String, List<String>> seriesData )
 	{
 		StringBuilder sb = new StringBuilder();
 		for( String title : seriesData.keySet() )
@@ -49,11 +42,36 @@ public class HighChart extends AbstractHighChart
 			}
 			sb.append( "]}" );
 		}
-		return String.format( READINGS_GRAPH, "Mock Data graph", sb );
+		return String.format( READINGS_GRAPH, chartTitle, sb );
+	}
+	
+	public String getPolarChart( String chartTitle, Map<String, List<String>> seriesData )
+	{
+		StringBuilder sb = new StringBuilder();
+		for( String title : seriesData.keySet() )
+		{
+			sb.append( "{type:'area'," );
+			sb.append( "name:'" );
+			sb.append( title );
+			sb.append( "',data:[" );
+			List<String> data = seriesData.get( title );
+			int max = data.size();
+			int current = 0;
+			for( String d : data )
+			{
+				current++;
+				sb.append( d );
+				if( current != max )
+					sb.append( "," );
+			}
+			sb.append( "]}" );
+		}
+		return String.format( READINGS_POLAR_GRAPH, chartTitle, sb );
 	}
 
 	private final String READINGS_GRAPH =
 			"var options={" +
+				"chart:{type:'area'}," +
 				"title:{text:'%s'}," +
 				"xAxis:{type:'datetime'}," +
 				"yAxis:{title:'usage'}," +
@@ -84,6 +102,38 @@ public class HighChart extends AbstractHighChart
 						"}," +
 						"threshold: null" +
 					"}" +
+				"}" +
+			"}";
+	
+	private final String READINGS_POLAR_GRAPH =
+			"var options={" +
+				"chart:{type:'polar'}," +
+				"title:{text:'%s'}," +
+				"pane:{" +
+					"startAngle:0," +
+					"endAngle:360" +
+				"}," +
+				"xAxis:{" +
+					"tickInterval:30," +
+					"min:0," +
+					"max:360," +
+					"labels:{formatter:function(){return this.value;}}," +
+					"type:'datetime'" +
+				"}," +
+				"yAxis:{min:0}," +
+				"series:[" +
+					"%s" +
+				"]," +
+				"legend:{enabled:false}," +
+				"plotOptions:{" +
+					"series:{" +
+						"pointStart:0," +
+						"pointInterval:30" +
+					"}," +
+					"column:{" +
+						"pointPadding:0," +
+						"groupPadding:0" +
+					"}," +
 				"}" +
 			"}";
 }

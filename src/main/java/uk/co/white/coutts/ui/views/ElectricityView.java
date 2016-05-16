@@ -19,6 +19,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import com.vaadin.ui.renderers.DateRenderer;
 
 import uk.co.white.coutts.controllers.DataController;
 import uk.co.white.coutts.highchart.HighChart;
@@ -35,7 +36,6 @@ public class ElectricityView extends CssLayout
 	public ElectricityView()
 	{
 		setStyleName( "electricity" );
-//		setSizeFull();
 		setSizeUndefined();
 		setWidth( "100%" );
 		controller = new DataController();
@@ -69,6 +69,8 @@ public class ElectricityView extends CssLayout
 		        Notification.show( "Nothing selected" );
 		});
 		dataTable.setColumnOrder( "date", "reading" );
+		dataTable.getColumn( "date" ).setRenderer( new DateRenderer( "%1$td %1$tb %1$tY", Locale.UK ) );
+		dataTable.removeColumn( "jsString" );
 		dataTable.setStyleName( "data-grid" );
 		dataTable.setHeightMode( HeightMode.ROW );
 		dataTable.setHeightByRows( rows );
@@ -131,8 +133,7 @@ public class ElectricityView extends CssLayout
 	
 	private Label addSpacer()
 	{
-		Label label = new Label( "<p>&nbsp;<p>" );
-		label.setCaptionAsHtml( true );
+		Label label = new Label();
 		label.addStyleName( "clearer" );
 		return label;
 	}
@@ -140,8 +141,8 @@ public class ElectricityView extends CssLayout
 	private HighChart addChart()
 	{
 		HighChart hc = new HighChart();
-		hc.setHcjs( hc.printJSFile( controller.getReadingsForJs() ) );
-		hc.setWidth( "500px" );
+		hc.setHcjs( hc.printJSFile( "Electricity Readings", controller.getReadingsForJs() ) );
+		hc.setWidth( "100%" );
 		hc.setHeight( "350px" );
 		return hc;
 	}
@@ -150,6 +151,7 @@ public class ElectricityView extends CssLayout
 	{
 		private static final long serialVersionUID = -5148814912133241135L;
 
+		@SuppressWarnings ( "unused" )
 		private String errorMessage;
 		
 		public NumberValidator( String errorMessage )

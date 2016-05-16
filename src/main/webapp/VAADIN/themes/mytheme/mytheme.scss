@@ -15,8 +15,10 @@
 		  width: 80%;
 		  min-height: 300px;
 		  .content-panel {
-			  padding: 10px;
 			  background-color: lightblue;
+			  .electricity {
+			  	  padding: 10px;
+			  }
 		  }
 	  }
 	  

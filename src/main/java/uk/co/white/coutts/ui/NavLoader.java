@@ -9,6 +9,7 @@ import com.vaadin.ui.CssLayout;
 import uk.co.white.coutts.model.MenuType;
 import uk.co.white.coutts.ui.views.ElectricityView;
 import uk.co.white.coutts.ui.views.PaintView;
+import uk.co.white.coutts.ui.views.GasView;
 
 public class NavLoader extends CssLayout
 {
@@ -86,7 +87,7 @@ public class NavLoader extends CssLayout
 			// set main content to paint view
 			resetButtonStyles();
 			gasButton.addStyleName( "active" );
-			content.loadView( new PaintView() );
+			content.loadView( new GasView().loadView() );
 		});
 		
 		calendarButton.addClickListener( e -> {

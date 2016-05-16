@@ -26,7 +26,6 @@ public abstract class AbstractReading
 	}
 	public String getJsString()
 	{
-
 		Calendar cal = Calendar.getInstance();
 		cal.setTime( date );
 		return "[Date.UTC("
