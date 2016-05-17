@@ -1,18 +1,17 @@
 package uk.co.white.coutts.model.data;
 
 import java.util.Calendar;
-import java.util.Date;
 
 public abstract class AbstractReading
 {
-	protected Date date;
+	protected Calendar date;
 	protected Float reading;
 		
-	public Date getDate()
+	public Calendar getDate()
 	{
 		return date;
 	}
-	public void setDate( Date date )
+	public void setDate( Calendar date )
 	{
 		this.date = date;
 	}
@@ -24,16 +23,18 @@ public abstract class AbstractReading
 	{
 		this.reading = reading;
 	}
+	public String getYear()
+	{
+		return String.format( "%d", date.get( Calendar.YEAR ) );
+	}
 	public String getJsString()
 	{
-		Calendar cal = Calendar.getInstance();
-		cal.setTime( date );
 		return "[Date.UTC("
-				+ cal.get( Calendar.YEAR )
+				+ date.get( Calendar.YEAR )
 				+ ","
-				+ cal.get( Calendar.MONTH )
+				+ date.get( Calendar.MONTH )
 				+ ","
-				+ cal.get( Calendar.DAY_OF_MONTH )
+				+ date.get( Calendar.DAY_OF_MONTH )
 				+ "),"
 				+ reading
 				+ "]";

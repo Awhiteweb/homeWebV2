@@ -1,12 +1,12 @@
 package uk.co.white.coutts.model.data;
 
-import java.util.Date;
+import java.util.Calendar;
 
 public class ElectricityReading extends AbstractReading
 {	
 	public ElectricityReading(){}
 	
-	public ElectricityReading( Date date, Float reading )
+	public ElectricityReading( Calendar date, Float reading )
 	{
 		super.date = date;
 		super.reading = reading;

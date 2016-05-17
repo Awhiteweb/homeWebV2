@@ -1,20 +1,18 @@
 package uk.co.white.coutts.controllers;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import com.vaadin.data.Container.PropertySetChangeEvent;
-import com.vaadin.data.Item.PropertySetChangeListener;
-import com.vaadin.data.util.BeanContainer;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.IndexedContainer;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import uk.co.white.coutts.model.MockData;
 import uk.co.white.coutts.model.data.AbstractReading;
 import uk.co.white.coutts.model.data.ElectricityReading;
 import uk.co.white.coutts.model.data.Paint;
+
+import com.vaadin.data.util.BeanContainer;
 
 public class DataController
 {
@@ -24,7 +22,7 @@ public class DataController
 		return newPaintData();
 	}
 
-	public BeanContainer<Date, ElectricityReading> getElectricityData()
+	public BeanContainer<Date, AbstractReading> getElectricityData()
 	{
 		return newReadings();
 	}
@@ -36,32 +34,35 @@ public class DataController
 		List<String> data = new LinkedList<>();
 		for ( AbstractReading reading : readings )
 		{
-			data.add( reading.getJsString() );
+			data.add( dateNormaliser( reading ) );
 		}
-		series.put( "Year 1", data );
+		series.put( readings.get( 0 ).getYear(), data );
+		
+		readings = MockData.getMockData().newReadings();
+		List<String> y2Data = new LinkedList<>();
+		for ( AbstractReading reading : readings )
+		{
+			reading.getDate().add( Calendar.YEAR, 1 );
+			y2Data.add( dateNormaliser( reading ) );
+		}
+		series.put( readings.get( 0 ).getYear(), y2Data );
 		return series;
 	}
 
-	// possibly move to high charts class
-	public void getReadingsForGraph( List<AbstractReading> readings )
+	private String dateNormaliser( AbstractReading input )
 	{
-		List<AbstractReading> nReadings = new LinkedList<>();
-		int total = readings.size();
-		for( int i = 1; i < total; i++ )
-		{
-			int h = i - 1;
-			Date d1 = readings.get( h ).getDate();
-			Float r1 = readings.get( h ).getReading();
-			Date d2 = readings.get( i ).getDate();
-			Float r2 = readings.get( i ).getReading();
-			// calculate difference in days
-			
-			// calculate average reading per day
-			
-			// calculate estimate reading for first day of month
-			
-			// add reading to nReadings
-		}
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis( input.getDate().getTimeInMillis() );
+		cal.set( Calendar.YEAR, 2000 );
+		return "[Date.UTC("
+				+ cal.get( Calendar.YEAR )
+				+ ","
+				+ cal.get( Calendar.MONTH )
+				+ ","
+				+ cal.get( Calendar.DAY_OF_MONTH )
+				+ "),"
+				+ input.getReading()
+				+ "]";
 	}
 	
 	private BeanContainer<String, Paint> newPaintData()
@@ -79,33 +80,14 @@ public class DataController
 		return container;
 	}
 	
-	private BeanContainer<Date, ElectricityReading> newReadings()
+	private BeanContainer<Date, AbstractReading> newReadings()
 	{
-//		Set<ElectricityReading> set = new TreeSet<>( (o1, o2) -> o1.getDate().compareTo( o2.getDate() ) );
-//		ElectricityReading r;
-//		SimpleDateFormat sdt = new SimpleDateFormat( "yyyy-M-dd" );
-//		Random rand = new Random();
-//		Float f = 1000f + ( rand.nextFloat() * 100 );
-//		BeanContainer<Date, ElectricityReading> container = new BeanContainer<>( ElectricityReading.class );
-//		container.setBeanIdProperty( "date" );
-//		for ( int i = 1; i < 13; i++ )
-//		{
-//			Date d = sdt.parse( String.format( "2015-%02d-01", i ) );
-//			f += ( rand.nextFloat() * 1000 );
-//			r = new ElectricityReading();
-//			r.setDate( d );
-//			r.setReading( f );
-//			System.out.println( r.toString() );
-//			set.add( r );
-//			container.addBean( r );
-//		}
-
-		BeanContainer<Date, ElectricityReading> container = new BeanContainer<>( ElectricityReading.class );
+		BeanContainer<Date, AbstractReading> container = new BeanContainer<>( AbstractReading.class );
 		container.setBeanIdProperty( "date" );
 		List<AbstractReading> list = MockData.getMockData().newReadings();
 		for( AbstractReading r : list )
 		{
-			container.addBean( (ElectricityReading) r );
+			container.addBean( (AbstractReading) r );
 		}
 		return container;
 	}

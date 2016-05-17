@@ -1,14 +1,12 @@
 package uk.co.white.coutts.model;
 
+import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+
 import uk.co.white.coutts.model.data.AbstractReading;
 import uk.co.white.coutts.model.data.ElectricityReading;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Random;
-import java.util.Date;
 
 /**
  * Created by Alex on 14/05/2016.
@@ -27,20 +25,12 @@ public class MockData
     {
         List<AbstractReading> set = new LinkedList<>();
         AbstractReading r;
-        SimpleDateFormat sdt = new SimpleDateFormat( "yyyy-M-dd" );
         Random rand = new Random();
         Float f = 1000f + ( rand.nextFloat() * 100 );
-        for ( int i = 1; i < 13; i++ )
+        for ( int i = 0; i < 12; i++ )
         {
-            Date d = null;
-            try
-            {
-                d = sdt.parse( String.format( "2015-%02d-01", i ) );
-            }
-            catch ( ParseException e )
-            {
-                e.printStackTrace();
-            }
+            Calendar d = Calendar.getInstance();
+            d.set( 2015, i, 1 );
             f += ( rand.nextFloat() * 1000 );
             r = new ElectricityReading();
             r.setDate( d );

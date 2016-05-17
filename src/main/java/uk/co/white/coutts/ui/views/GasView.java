@@ -1,10 +1,13 @@
 package uk.co.white.coutts.ui.views;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 import uk.co.white.coutts.controllers.DataController;
 import uk.co.white.coutts.highchart.HighChart;
+import uk.co.white.coutts.model.CalendarRenderer;
+import uk.co.white.coutts.model.data.AbstractReading;
 import uk.co.white.coutts.model.data.ElectricityReading;
 
 import com.vaadin.data.Validator;
@@ -33,7 +36,7 @@ public class GasView extends CssLayout
 {
 	private static final long serialVersionUID = 2147862163429543466L;
 	private DataController controller;
-	private BeanContainer<Date, ElectricityReading> container;
+	private BeanContainer<Date, AbstractReading> container;
 	private Grid dataTable;
 
 	public GasView()
@@ -72,7 +75,7 @@ public class GasView extends CssLayout
 		        Notification.show( "Nothing selected" );
 		});
 		dataTable.setColumnOrder( "date", "reading" );
-		dataTable.getColumn( "date" ).setRenderer( new DateRenderer( "%1$td %1$tb %1$tY", Locale.UK ) );
+		dataTable.getColumn( "date" ).setRenderer( new CalendarRenderer( "%1$td %1$tb %1$tY" ) );
 		dataTable.removeColumn( "jsString" );
 		dataTable.setStyleName( "data-grid" );
 		dataTable.setHeightMode( HeightMode.ROW );
@@ -90,7 +93,7 @@ public class GasView extends CssLayout
 			
 			VerticalLayout v = new VerticalLayout();
 			v.setSpacing( true );
-			
+
 			DateField dateField = new DateField();
 			dateField.setLocale( Locale.UK );
 			dateField.setValue( new Date() );
@@ -122,7 +125,9 @@ public class GasView extends CssLayout
 					Float number = (Float) reading.getConvertedValue();
 					ElectricityReading er = new ElectricityReading();
 					er.setReading( number );
-					er.setDate( dateField.getValue() );
+					Calendar cal = Calendar.getInstance();
+					cal.setTime( dateField.getValue() );
+					er.setDate( cal );
 					container.addBean( er );
 					w.close();
 				}

@@ -18,15 +18,19 @@ public class HighChart extends AbstractHighChart
 	{
 		HighChart h = new HighChart();
 		DataController d = new DataController();
-		h.printJSFile( "Mock Chart Data", d.getReadingsForJs() );
+		h.getJsAreaChart( "Mock Chart Data", d.getReadingsForJs() );
+		h.getPolarChart( "Mock Chart Data", d.getReadingsForJs() );
 	}
 
 
-	public String printJSFile( String chartTitle, Map<String, List<String>> seriesData )
+	public String getJsAreaChart( String chartTitle, Map<String, List<String>> seriesData )
 	{
 		StringBuilder sb = new StringBuilder();
+		int mapSize = seriesData.size();
+		int mapCurrent = 0;
 		for( String title : seriesData.keySet() )
 		{
+			mapCurrent++;
 			sb.append( "{name:'" );
 			sb.append( title );
 			sb.append( "',data:[" );
@@ -41,6 +45,8 @@ public class HighChart extends AbstractHighChart
 					sb.append( "," );
 			}
 			sb.append( "]}" );
+			if( mapCurrent != mapSize )
+				sb.append( "," );
 		}
 		return String.format( READINGS_GRAPH, chartTitle, sb );
 	}
@@ -66,6 +72,7 @@ public class HighChart extends AbstractHighChart
 			}
 			sb.append( "]}" );
 		}
+		System.out.println( String.format( READINGS_GRAPH, chartTitle, sb ) );
 		return String.format( READINGS_POLAR_GRAPH, chartTitle, sb );
 	}
 
@@ -107,7 +114,7 @@ public class HighChart extends AbstractHighChart
 	
 	private final String READINGS_POLAR_GRAPH =
 			"var options={" +
-				"chart:{type:'polar'}," +
+				"chart:{polar:true}," +
 				"title:{text:'%s'}," +
 				"pane:{" +
 					"startAngle:0," +
