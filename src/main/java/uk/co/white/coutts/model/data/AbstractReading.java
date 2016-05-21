@@ -4,9 +4,18 @@ import java.util.Calendar;
 
 public abstract class AbstractReading
 {
+	protected int id;
 	protected Calendar date;
 	protected Float reading;
 		
+	public int getId()
+	{
+		return id;
+	}
+	public void setId( int id )
+	{
+		this.id = id;
+	}
 	public Calendar getDate()
 	{
 		return date;

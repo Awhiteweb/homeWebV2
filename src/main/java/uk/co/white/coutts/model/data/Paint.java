@@ -6,6 +6,7 @@ import uk.co.white.coutts.model.EntityChangeListener;
 
 public class Paint
 {
+	private int id;
 	private String room;
 	private String code;
 	private EntityChangeListener listener;
@@ -22,6 +23,15 @@ public class Paint
 		this.code = code;
 	}
 	
+	public int getId()
+	{
+		return id;
+	}
+	public void setId( int id )
+	{
+		this.id = id;
+	}
+	
 	public String getRoom()
 	{
 		return room;
@@ -32,6 +42,7 @@ public class Paint
 			listener.propertyChange( new PropertyChangeEvent( this, "room", this.room, room ) );;
 		this.room = room;
 	}
+	
 	public String getCode()
 	{
 		return code;

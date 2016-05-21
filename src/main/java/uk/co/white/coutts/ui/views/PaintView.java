@@ -66,6 +66,7 @@ public class PaintView extends CssLayout
 		    	selectedItem = null;
 		    }
 		});
+		dataTable.removeColumn( "id" );
 		dataTable.setColumnOrder( "room", "code" );
 		dataTable.setStyleName( "data-grid" );
 		dataTable.setHeightMode( HeightMode.ROW );

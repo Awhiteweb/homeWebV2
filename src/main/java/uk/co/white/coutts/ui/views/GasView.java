@@ -26,7 +26,6 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-import com.vaadin.ui.renderers.DateRenderer;
 /**
  * Polar chart not loading
  * @author Alex
@@ -76,6 +75,7 @@ public class GasView extends CssLayout
 		});
 		dataTable.setColumnOrder( "date", "reading" );
 		dataTable.getColumn( "date" ).setRenderer( new CalendarRenderer( "%1$td %1$tb %1$tY" ) );
+		dataTable.removeColumn( "id" );
 		dataTable.removeColumn( "jsString" );
 		dataTable.setStyleName( "data-grid" );
 		dataTable.setHeightMode( HeightMode.ROW );

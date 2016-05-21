@@ -72,6 +72,7 @@ public class ElectricityView extends CssLayout
 		});
 		dataTable.setColumnOrder( "date", "reading" );
 		dataTable.getColumn( "date" ).setRenderer( new CalendarRenderer( "%1$td %1$tb %1$tY" ) );
+		dataTable.removeColumn( "id" );
 		dataTable.removeColumn( "jsString" );
 		dataTable.setStyleName( "data-grid" );
 		dataTable.setHeightMode( HeightMode.ROW );
