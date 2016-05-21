@@ -2,12 +2,19 @@ package uk.co.white.coutts.model.data;
 
 import java.beans.PropertyChangeEvent;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 import uk.co.white.coutts.model.EntityChangeListener;
 
+@DatabaseTable( tableName = "paints" )
 public class Paint
 {
+	@DatabaseField( id = true )
 	private int id;
+	@DatabaseField
 	private String room;
+	@DatabaseField
 	private String code;
 	private EntityChangeListener listener;
 	
@@ -60,4 +67,5 @@ public class Paint
 		return "[ " + room + ", " + code + " ]";
 	}
 }
+
 

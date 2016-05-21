@@ -4,12 +4,16 @@ import java.util.Calendar;
 
 public class ElectricityReading extends AbstractReading
 {	
-	public ElectricityReading(){}
+	public ElectricityReading()
+	{
+		super.type = 1;
+	}
 	
 	public ElectricityReading( Calendar date, Float reading )
 	{
 		super.date = date;
 		super.reading = reading;
+		super.type = 1;
 	}
 		
 	@Override
