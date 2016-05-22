@@ -1,0 +1,1 @@
+http://ormlite.com/javadoc/ormlite-core/doc-files/ormlite_1.html#Getting-Started
