@@ -16,6 +16,7 @@ public class Paint
 	private String room;
 	@DatabaseField
 	private String code;
+	@DatabaseField( persisted = false )
 	private EntityChangeListener listener;
 	
 	public Paint()
