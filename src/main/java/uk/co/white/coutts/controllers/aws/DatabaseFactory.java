@@ -1,8 +1,7 @@
 package uk.co.white.coutts.controllers.aws;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.sql.SQLException;
+import java.io.InputStream;
 import java.util.Properties;
 
 import javax.sql.DataSource;
@@ -18,7 +17,7 @@ public class DatabaseFactory
 		if( mysqlDS != null )
 			return mysqlDS;
 		Properties props = new Properties();
-		try ( FileInputStream fis = new FileInputStream( "db.properties" ) )
+		try ( InputStream fis = DatabaseFactory.class.getResourceAsStream( "db.properties" ) )
 		{
 			props.load( fis );
 			mysqlDS = new MysqlDataSource();
@@ -27,25 +26,10 @@ public class DatabaseFactory
 			mysqlDS.setPassword( props.getProperty( "MYSQL_DB_PASSWORD" ) );
 			return mysqlDS;
 		}
-		catch (IOException e)
+		catch ( IOException e )
 		{
 			e.printStackTrace();
 		}
 		return null;
-	}
-	
-	
-	public static void main(String[] args)
-	{
-		try
-		{
-			mysqlDS.getConnection();
-		}
-		catch (SQLException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
+	}	
 }
