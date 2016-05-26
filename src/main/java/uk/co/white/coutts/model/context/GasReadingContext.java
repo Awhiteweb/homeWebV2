@@ -75,7 +75,12 @@ public class GasReadingContext extends AbstractConnection implements ReadingCont
 	@Override
 	public void insert( AbstractReading item ) throws SQLException
 	{
-		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void delete( AbstractReading item ) throws SQLException
+	{
 		
 	}
 

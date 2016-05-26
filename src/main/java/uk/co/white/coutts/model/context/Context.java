@@ -9,4 +9,5 @@ public interface Context<T>
 	public T getById( int id ) throws SQLException;
 	public T getByName( String name ) throws SQLException;
 	public void insert( T item ) throws SQLException;
+	public void delete( T item ) throws SQLException;
 }

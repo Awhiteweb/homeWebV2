@@ -64,4 +64,10 @@ public class PaintContext extends AbstractConnection implements Context<Paint>
 			throw new SQLException();
 		
 	}
+
+	@Override
+	public void delete( Paint item ) throws SQLException
+	{
+		
+	}
 }
